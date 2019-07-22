@@ -17,6 +17,7 @@ screen_width = 100
 player_name = ''
 player_health = 0
 player_inventory = []
+key_items = []
 enemies = [
     "Large Spider Ant",
     "Mutated Dog",
@@ -152,13 +153,14 @@ class FrontYard(Scene):
                 print("What would you like to do")
 
         choice = input("> ")
-
+        global player_inventory
         if choice.lower() == 'West' or choice.lower() == 'w':
             return 'side_yard'
         elif choice.lower() == 'North' or choice.lower() == 'n':
-            global player_inventory
+            
             if 'front_door_key' in player_inventory:
                 print("You open the door")
+                print("_________________________________")
                 return 'house_hall'
             else:
                 print("The door is currently locked.")
@@ -167,9 +169,21 @@ class FrontYard(Scene):
             print("Behind you stands a busy street")
             print("You turn to leave, but something draws you back")
             print("You turn back to the house.")
+            print("___________________________")
             return 'front_yard'
         elif choice.lower() == "east" or  choice.lower() == 'e':
-            print("A large hedge blocks your way.")
+            global key_items
+            if 'garage_door_opener' in key_items:
+                print("you click the old garage door opening. A slow rumble can he heard as the old doors slowly open")
+                print("______________________________")
+                return 'garage_door'
+            else:
+                print("The garage door is locked")
+                print("_______________________")
+                return 'front_yard'
+            print("A large garage door stands in your way.")
+            print("It currently appears to be locked.")
+            print("_________________________________")
             return 'front_yard'
         #w_pn = Weapon('something', 'another', 'b')
         #weapon = w_pn.weapon_spawn()
@@ -207,8 +221,8 @@ class SideYard(Scene):
             print("What would you like to search?")
             choice = input("> ")
             if choice.lower() == 'grass' or choice.lower() == "the grass":
-                global player_inventory
-                player_inventory = player_inventory.append("Garage Door Opener")
+                global key_items
+                key_items = key_items.append("garage_door_opener")
                 print("you found a dirty garage door opener.")
                 return 'side_yard'
             else:
@@ -223,7 +237,10 @@ class SideYard(Scene):
         return 'side_yard'
 class Garage(Scene):
     def enter(self):
-        pass
+        print("you are crrently in the garage")
+        choice = input("> ")
+        return 'garage_door'
+        
 
 class Backyard(Scene):
     def enter(self):
@@ -270,7 +287,8 @@ class Map(object):
         'title_screen': TitleScreen(),
         'front_yard': FrontYard(),
         'side_yard': SideYard(),
-        'house_hall': HouseHall()
+        'house_hall': HouseHall(),
+        'garage_door': Garage(),
     }
 
     def __init__(self, start_scene):
