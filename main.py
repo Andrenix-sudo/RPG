@@ -157,7 +157,7 @@ class FrontYard(Scene):
         if choice.lower() == 'West' or choice.lower() == 'w':
             return 'side_yard'
         elif choice.lower() == 'North' or choice.lower() == 'n':
-            
+
             if 'front_door_key' in player_inventory:
                 print("You open the door")
                 print("_________________________________")
@@ -173,6 +173,7 @@ class FrontYard(Scene):
             return 'front_yard'
         elif choice.lower() == "east" or  choice.lower() == 'e':
             global key_items
+            print(key_items)
             if 'garage_door_opener' in key_items:
                 print("you click the old garage door opening. A slow rumble can he heard as the old doors slowly open")
                 print("______________________________")
@@ -222,7 +223,7 @@ class SideYard(Scene):
             choice = input("> ")
             if choice.lower() == 'grass' or choice.lower() == "the grass":
                 global key_items
-                key_items = key_items.append("garage_door_opener")
+                key_items.append("garage_door_opener")
                 print("you found a dirty garage door opener.")
                 return 'side_yard'
             else:
@@ -237,10 +238,38 @@ class SideYard(Scene):
         return 'side_yard'
 class Garage(Scene):
     def enter(self):
-        print("you are crrently in the garage")
+        print(dedent("""
+                Dust falls from the garage door as it opens. Inside you can barely make out the shapes
+                of various objects. The occasionaly flash of lighting helps you notice that there are
+                some boxes in the back of the garage. If only you had a light to see better.
+                """))
+        print("What would you like to do?")
         choice = input("> ")
+        global key_items
+
+        if choice.lower() == 'turn on lights' or choice.lower() == 'lights':
+            print("you reach close to the entrance to find a light switch. ")
+            print("The lights flicker as they turn on, illuminating the room.")
+            key_items.append("light")
+
+        elif choice.lower() == 'search' and 'light' in key_items == False:
+            print(lights)
+            print("It's too dark to do that right now")
+            print("Maybe if you could find a light switch")
+        elif choice.lower() == 'search' and 'light' in key_items == True:
+            print("What would you like to search?")
+            choice == input("> ")
+            if choice.lower() == 'boxes' or choice.lower() == 'the boxes':
+                print("You find a rusty key inside one of the mouldy boxes")
+                key_items.append("front_door_key")
+                print("You take the front door key")
+        elif choice.lower() == 'west' or choice.lower() == 'w':
+            return 'front_yard'
+        else:
+            print("I do not understand.")
+            return 'garage_door'
         return 'garage_door'
-        
+
 
 class Backyard(Scene):
     def enter(self):
