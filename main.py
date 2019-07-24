@@ -231,6 +231,18 @@ class SideYard(Scene):
 
         elif choice.lower() == "east" or choice.lower() == 'e':
             return 'front_yard'
+        elif choice.lower() == 'items':
+            item = Inventory()
+            item.inventory()
+
+        elif choice.lower() == 'health':
+            global player_health
+            print("Your current health is: ", player_health)
+
+        elif choice.lower() == 'key items':
+            
+            print("You currently have: ", key_items)
+
         else:
             print("I do not understand.")
 
@@ -247,24 +259,31 @@ class Garage(Scene):
         choice = input("> ")
         global key_items
 
+
         if choice.lower() == 'turn on lights' or choice.lower() == 'lights':
             print("you reach close to the entrance to find a light switch. ")
             print("The lights flicker as they turn on, illuminating the room.")
-            key_items.append("light")
-
-        elif choice.lower() == 'search' and 'light' in key_items == False:
-            print(lights)
+            print("With the lights on you search the boxes in the back of the room.")
+            print("You find a rusty key inside one of the mouldy boxes")
+            key_items.append("front_door_key")
+            print("You take the front door key")
+        elif choice.lower() == 'search' and light == False:
             print("It's too dark to do that right now")
             print("Maybe if you could find a light switch")
-        elif choice.lower() == 'search' and 'light' in key_items == True:
-            print("What would you like to search?")
-            choice == input("> ")
-            if choice.lower() == 'boxes' or choice.lower() == 'the boxes':
-                print("You find a rusty key inside one of the mouldy boxes")
-                key_items.append("front_door_key")
-                print("You take the front door key")
         elif choice.lower() == 'west' or choice.lower() == 'w':
             return 'front_yard'
+        elif choice.lower() == 'items':
+            item = Inventory()
+            item.inventory()
+            return 'garage_door'
+        elif choice.lower() == 'health':
+            global player_health
+            print("Your current health is: ", player_health)
+            return 'garage_door'
+        elif choice.lower() == 'key items':
+            print("You currently have: ", key_items)
+
+
         else:
             print("I do not understand.")
             return 'garage_door'
